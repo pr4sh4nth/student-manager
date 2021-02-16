@@ -9,7 +9,16 @@
           <v-container>
             <v-layout>
               <v-flex xs12 md4>
-                <v-text-field v-model="name" label="Name" required></v-text-field>
+                <v-text-field
+                  v-model="firstName"
+                  label="First Name"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  v-model="lastName"
+                  label="Last Name"
+                  required
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -17,28 +26,34 @@
         </v-form>
       </v-card>
     </v-flex>
-    <br>
-    <Students/>
+    <br />
+    <Students />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import Students from "./Students";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
-      name: ""
+      firstName: "",
+      lastName: "",
     };
   },
   methods: {
     async submit() {
-      axios.post("http://localhost:3000/students", { name: this.name });
-    }
+      this.$store.dispatch("createStudent", {
+        firstName: this.firstName,
+        lastName: this.lastName,
+      });
+    },
   },
+
   components: {
-      Students
-  }
+    Students,
+  },
 };
 </script>
